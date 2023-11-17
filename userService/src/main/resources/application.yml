@@ -1,0 +1,26 @@
+server:
+  port: 8090
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: userService
+
+  datasource:
+    url: jdbc:mysql://MySQL-container:3306/cs490
+    username: root
+    password: root
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+    hibernate:
+      ddl-auto: create-drop
+      #        ddl-auto: update
+      use-new-id-generator-mappings: false

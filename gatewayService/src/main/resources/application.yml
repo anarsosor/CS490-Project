@@ -1,0 +1,46 @@
+server:
+  port: 8088
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: authService
+          uri: lb://userService
+          predicates:
+            - Path=/register/**, /login/**
+
+        - id: userService
+          uri: lb://userService
+          predicates:
+            - Path=/users/**, /doctors/**, /patients/**, /pharmacists/**
+          filters:
+            - AuthenticationFilter
+
+        - id: appointmentService
+          uri: lb://appointmentService
+          predicates:
+            - Path=/appointments/**
+          filters:
+            - AuthenticationFilter
+
+        - id: paymentService
+          uri: lb://paymentService
+          predicates:
+            - Path=/payments/**
+          filters:
+            - AuthenticationFilter
+
+        - id: prescriptionService
+          uri: lb://prescriptionService
+          predicates:
+            - Path=/prescriptions/**
+          filters:
+            - AuthenticationFilter
